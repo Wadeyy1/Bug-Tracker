@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Bug_Tracker.DAL;
+using Bug_Tracker.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Bug_Tracker.Controllers
@@ -14,7 +13,6 @@ namespace Bug_Tracker.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -22,11 +20,13 @@ namespace Bug_Tracker.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        [Authorize(Roles = "Admin")]
+        public ActionResult UserAdmin()
         {
-            ViewBag.Message = "Your contact page.";
+            UserAdminData dataService = new UserAdminData();
+            List<UserAdminModel> users = dataService.GetAllUsers();
 
-            return View();
+            return View("UserAdmin", users);
         }
     }
 }
