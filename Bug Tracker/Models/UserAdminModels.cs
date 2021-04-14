@@ -24,4 +24,9 @@ namespace Bug_Tracker.Models
         {
         }
     }
+
+    public class ViewUser
+    {
+        public string ID { get; set; }
+    }
 }

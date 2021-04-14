@@ -9,10 +9,13 @@ namespace Bug_Tracker.Controllers
 {
     public class UserAdminController : Controller
     {
-        public ActionResult ViewUser()
-        { //, u.ID string ID
-            //ViewBag.Message = ID;
-            return View();
+        public ActionResult ViewUser(string UserId)
+        {
+            ViewUser model = new ViewUser
+            {
+                ID = UserId
+            };
+            return View(model);
         }
     }
 }
