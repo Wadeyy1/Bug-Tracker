@@ -2,5 +2,56 @@
 @{
     ViewBag.Title = "User Admin";
 }
-<h2>@ViewBag.Title.</h2>
-<h2>@Model.ID</h2>
+<div class="jumbotron">
+    <h2>@ViewBag.Title</h2>
+    <p>This page allows you to manage users details and permissions.</p>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        Username - @Model.UserName
+    </div>
+</div>
+<section>
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                <div class="col-lg-10" data-children-count="1">
+                    <input type="text" class="form-control" id="inputEmail" placeholder="Email" value="@Model.Email" data-kwimpalastatus="alive" data-kwimpalaid="1618517414221-1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="userNotes" class="col-lg-2 control-label">User Additional Info</label>
+                <div class="col-lg-10" data-children-count="1">
+                    <textarea class="form-control" rows="3" id="userNotes">@(Model.AdditionalInfo ?? "")</textarea>
+                    <span class="help-block">Feel free to store any notes around the user that may be useful.</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Role" class="col-lg-2 control-label">User Role</label>
+                <div class="col-lg-10" data-children-count="2">
+                    <select class="form-control" id="Role">
+                        <option value="User" @(Model.Role == "User" ? "selected" : "")>User</option>
+                        <option value="Admin" @(Model.Role == "Admin" ? "selected" : "")>Admin</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="CrudPermission" class="col-lg-2 control-label">Permissions</label>
+                <div class="col-lg-10" data-children-count="2">
+                    <div class="checkbox">
+                        <label data-children-count="1">
+                            <input id="CrudPermission" type="checkbox" @(Model.PermissionGranted == true ? "checked" : "")> Create and Delete Bugs
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <button type="reset" class="btn btn-default" onclick="location.href='@Url.Action("UserAdmin", "Home")'">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</section>

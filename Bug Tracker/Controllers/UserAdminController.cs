@@ -1,4 +1,5 @@
-﻿using Bug_Tracker.Models;
+﻿using Bug_Tracker.DAL;
+using Bug_Tracker.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,10 @@ namespace Bug_Tracker.Controllers
     {
         public ActionResult ViewUser(string UserId)
         {
-            ViewUser model = new ViewUser
-            {
-                ID = UserId
-            };
-            return View(model);
+            UserAdminData dataService = new UserAdminData();
+            ViewUser UserData = dataService.GetSpecificUser(UserId);
+
+            return View(UserData);
         }
     }
 }

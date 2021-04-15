@@ -10,6 +10,7 @@
         <th>UserName</th>
         <th>Email</th>
         <th>Role</th>
+        <th>View User</th>
     </tr>
     @foreach (var u in Model)
     {
@@ -17,7 +18,7 @@
             <td>@Html.DisplayFor(modelItem => u.UserName)</td>
             <td>@Html.DisplayFor(modelItem => u.Email)</td>
             <td>@Html.DisplayFor(modelItem => u.Role)</td>
-            <td>@Html.ActionLink("View", "ViewUser", "UserAdmin", new { id = u.ID }, null)</td>
+            <td>@Html.ActionLink("View", "ViewUser", "UserAdmin", new { UserId = u.ID }, null)</td>
         </tr>
     }
 </table>

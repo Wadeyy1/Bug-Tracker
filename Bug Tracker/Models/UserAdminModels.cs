@@ -14,7 +14,7 @@ namespace Bug_Tracker.Models
 
         public UserAdminModel(string ID, string userName, string email, string role)
         {
-            ID = ID;
+            this.ID = ID;
             UserName = userName ?? "";
             Email = email ?? "";
             Role = role ?? "";
@@ -25,8 +25,13 @@ namespace Bug_Tracker.Models
         }
     }
 
-    public class ViewUser
+    public class ViewUser : UserAdminModel
     {
-        public string ID { get; set; }
+        public bool PermissionGranted { get; set; }
+        public string AdditionalInfo { get; set; }
+
+        public ViewUser()
+        {
+        }
     }
 }
