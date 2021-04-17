@@ -17,5 +17,20 @@ namespace Bug_Tracker.Controllers
 
             return View(UserData);
         }
+
+        [HttpPost]
+        public ActionResult UserForm(Models.ViewUser vu)
+        {
+            ViewBag.ID = Request.Form["ID"];
+            ViewBag.Email = Request.Form["InputEmail"];
+            ViewBag.AdditionalInfo = Request.Form["AdditionalInfo"];
+            ViewBag.Role = (Request.Form["Role"] == "User") ? 1 : 2;
+            ViewBag.CrudPermission = (Request.Form["CrudPermission"] == "on") ? 1 : 0;
+
+            UserAdminData dataService = new UserAdminData();
+            dataService.SaveSpecificUser(vu.ID, ViewBag.Email, ViewBag.AdditionalInfo, ViewBag.Role, ViewBag.CrudPermission);
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

@@ -28,5 +28,19 @@ namespace Bug_Tracker.DAL
                 return db.QueryFirstOrDefault<ViewUser>("SELECT anu.ID, anu.UserName, anu.Email, anr.Name AS [Role], lup.PermissionGranted AS [PermissionGranted], anu.AdditionalInfo FROM AspNetUsers anu INNER JOIN AspNetUserRoles anur on anu.Id = anur.UserId INNER JOIN AspNetRoles anr on anur.RoleId = anr.Id LEFT JOIN Lnk_User_Permissions lup on anu.Id = lup.Id INNER JOIN Ref_User_Permissions rup on lup.PermissionID = rup.PermissionID AND rup.PermissionName = 'CRUD - Bug' WHERE anu.ID = @ID", parameter);
             }
         }
+
+        public void SaveSpecificUser(string ID, string Email, string AdditionalInfo, int Role, int CrudPermission)
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                DynamicParameters parameter = new DynamicParameters();
+                parameter.Add("@ID", ID, DbType.String);
+                parameter.Add("@Email", Email, DbType.String);
+                parameter.Add("@AdditionalInfo", AdditionalInfo, DbType.String);
+                parameter.Add("@Role", Role, DbType.String);
+                parameter.Add("@CrudPermission", CrudPermission, DbType.String);
+                db.Execute("prc_UpdateSpecificUser", parameter, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }

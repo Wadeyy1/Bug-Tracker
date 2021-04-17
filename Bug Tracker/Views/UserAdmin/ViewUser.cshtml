@@ -12,25 +12,26 @@
     </div>
 </div>
 <section>
-    <form class="form-horizontal">
+    <form class="form-horizontal" method="post" action="UserForm">
         <fieldset>
+            <input name="ID" hidden value="@Model.ID"/>
             <div class="form-group">
-                <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                <label for="InputEmail" class="col-lg-2 control-label">Email</label>
                 <div class="col-lg-10" data-children-count="1">
-                    <input type="text" class="form-control" id="inputEmail" placeholder="Email" value="@Model.Email" data-kwimpalastatus="alive" data-kwimpalaid="1618517414221-1">
+                    <input name="InputEmail" type="text" class="form-control" id="InputEmail" placeholder="Email" value="@Model.Email" data-kwimpalastatus="alive" data-kwimpalaid="1618517414221-1">
                 </div>
             </div>
             <div class="form-group">
                 <label for="userNotes" class="col-lg-2 control-label">User Additional Info</label>
                 <div class="col-lg-10" data-children-count="1">
-                    <textarea class="form-control" rows="3" id="userNotes">@(Model.AdditionalInfo ?? "")</textarea>
+                    <textarea name ="AdditionalInfo" class="form-control" rows="3" id="userNotes">@(Model.AdditionalInfo ?? "")</textarea>
                     <span class="help-block">Feel free to store any notes around the user that may be useful.</span>
                 </div>
             </div>
             <div class="form-group">
                 <label for="Role" class="col-lg-2 control-label">User Role</label>
                 <div class="col-lg-10" data-children-count="2">
-                    <select class="form-control" id="Role">
+                    <select class="form-control" id="Role" name="Role">
                         <option value="User" @(Model.Role == "User" ? "selected" : "")>User</option>
                         <option value="Admin" @(Model.Role == "Admin" ? "selected" : "")>Admin</option>
                     </select>
@@ -41,7 +42,7 @@
                 <div class="col-lg-10" data-children-count="2">
                     <div class="checkbox">
                         <label data-children-count="1">
-                            <input id="CrudPermission" type="checkbox" @(Model.PermissionGranted == true ? "checked" : "")> Create and Delete Bugs
+                            <input name="CrudPermission" id="CrudPermission" type="checkbox" @(Model.PermissionGranted == true ? "checked" : "")> Create and Delete Bugs
                         </label>
                     </div>
                 </div>
