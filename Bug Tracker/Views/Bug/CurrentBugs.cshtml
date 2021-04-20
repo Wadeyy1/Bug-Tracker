@@ -1,0 +1,84 @@
+﻿@model List<Bug_Tracker.Models.Bug>
+@{
+    ViewBag.Title = "Current Bugs";
+}
+<br />
+<div class="panel panel-primary">
+    <div class="panel-heading"><h2>@ViewBag.Title</h2></div>
+    <div class="panel-body">
+        <div align="right">
+            <button type="button" class="btn btn-default" data-target="#MyModal" data-toggle="modal">Create Bug</button>
+            <p>&ensp;</p>
+        </div>
+        <div class="modal" id="MyModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal">&times;</button>
+                        <h4>Create New Bug</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" method="post" action="BugCreateForm">
+                            <fieldset>
+                                <span class="help-block">All fields marked with * are manditory.</span>
+                                <div class="form-group">
+                                    <label for="Summary" class="col-lg-2 control-label">Summary*</label>
+                                    <div class="col-lg-10" data-children-count="1">
+                                        <input type="text" class="form-control" id="Summary" name="Summary" placeholder="Summary" data-kwimpalastatus="alive" data-kwimpalaid="1618754883458-1" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Description" class="col-lg-2 control-label">Description</label>
+                                    <div class="col-lg-10" data-children-count="1">
+                                        <textarea class="form-control" rows="3" id="Description" name="Description"></textarea>
+                                        <span class="help-block">Please provide full detail around the bug.</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userAssigned" class="col-lg-2 control-label">Assigned</label>
+                                    <div class="col-lg-10" data-children-count="2">
+                                        <select class="form-control" id="userAssigned" name="userAssigned">
+                                            <option selected></option>
+                                            @foreach (var user in ViewBag.data)
+                                            {
+                                                <option value="@user.Id">@user.UserName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-10 col-lg-offset-2">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-hover">
+            <tr>
+                <th>Bug ID</th>
+                <th>Summary</th>
+                <th>Assigned</th>
+                <th>Status</th>
+                <th>Created</th>
+            </tr>
+            @foreach (var u in Model)
+            {
+                <tr onmousedown="location.href='@Url.Action("UserAdmin", "Home")'">
+                    <td>@Html.DisplayFor(modelItem => u.BugID)</td>
+                    <td>@Html.DisplayFor(modelItem => u.Summary)</td>
+                    <td>@Html.DisplayFor(modelItem => u.Assigned) </td>
+                    <td>@Html.DisplayFor(modelItem => u.Status)</td>
+                    <td>@Html.DisplayFor(modelItem => u.CreatedDate)</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

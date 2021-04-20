@@ -13,13 +13,6 @@ namespace Bug_Tracker.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
         [Authorize(Roles = "Admin")]
         public ActionResult UserAdmin()
         {
