@@ -30,6 +30,17 @@ namespace Bug_Tracker.DAL
             }
         }
 
+        public List<BugComments> GetSpecificBugComments(int BugID)
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                DynamicParameters parameter = new DynamicParameters();
+                parameter.Add("@BugID", BugID, DbType.Int32);
+                return db.Query<BugComments>
+                 ("SELECT db.BugID, db.Summary, db.Description, anu.UserName as [Assigned], rbs.Description as [Status], db.CreatedDate, db.ClosedDate FROM Dat_Bug db INNER JOIN Ref_Bug_Status rbs ON db.StatusID = rbs.StatusID LEFT JOIN AspNetUsers anu ON db.AssignedID = anu.Id WHERE db.BugID = @BugID", parameter).ToList();
+            }
+        }
+
         public List<Agents> GetAllAgentUsernames()
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))

@@ -24,7 +24,7 @@ namespace Bug_Tracker.Models
     public class BugComments
     {
         public int CommentID { get; set; }
-        public string UserID { get; set; }
+        public string UserName { get; set; }
         public DateTime CommentDate { get; set; }
         public string Comment { get; set; }
     }

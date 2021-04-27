@@ -37,6 +37,8 @@ namespace Bug_Tracker.Controllers
         {
             BugData dataService = new BugData();
             Bug bug = dataService.GetSpecificBug(BugId);
+            List<BugComments> comments = dataService.GetSpecificBugComments(BugId);
+            bug.Comments = comments;
             ViewBag.Data = dataService.GetAllBugStatus();
             return View("ViewBug", bug);
         }
