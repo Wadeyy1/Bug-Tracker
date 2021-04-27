@@ -19,12 +19,32 @@ namespace Bug_Tracker.DAL
             }
         }
 
+        public Bug GetSpecificBug(int BugID)
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                DynamicParameters parameter = new DynamicParameters();
+                parameter.Add("@BugID", BugID, DbType.Int32);
+                return db.QueryFirstOrDefault<Bug>
+                 ("SELECT db.BugID, db.Summary, db.Description, anu.UserName as [Assigned], rbs.Description as [Status], db.CreatedDate, db.ClosedDate FROM Dat_Bug db INNER JOIN Ref_Bug_Status rbs ON db.StatusID = rbs.StatusID LEFT JOIN AspNetUsers anu ON db.AssignedID = anu.Id WHERE db.BugID = @BugID", parameter);
+            }
+        }
+
         public List<Agents> GetAllAgentUsernames()
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
                 return db.Query<Agents>
                     ("SELECT anu.Id,anu.UserName FROM AspNetUsers anu INNER JOIN AspNetUserRoles anur on anu.Id = anur.UserId INNER JOIN AspNetRoles anr on anur.RoleId = anr.Id").ToList();
+            }
+        }
+
+        public List<Status> GetAllBugStatus()
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                return db.Query<Status>
+                    ("SELECT rbs.StatusID, rbs.Description AS [StatusName] FROM Ref_Bug_Status rbs").ToList();
             }
         }
 

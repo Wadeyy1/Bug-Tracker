@@ -38,4 +38,14 @@ namespace Bug_Tracker.Models
         {
         }
     }
+
+    public class Status
+    {
+        public int StatusID { get; set; }
+        public string StatusName { get; set; }
+
+        public Status()
+        {
+        }
+    }
 }

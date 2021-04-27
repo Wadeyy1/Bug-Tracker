@@ -71,8 +71,8 @@
             </tr>
             @foreach (var u in Model)
             {
-                <tr onmousedown="location.href='@Url.Action("UserAdmin", "Home")'">
-                    <td>@Html.DisplayFor(modelItem => u.BugID)</td>
+                <tr>
+                    <td>@Html.ActionLink("#" + @Html.DisplayFor(modelItem => u.BugID).ToString(), "ViewBug", "Bug", new { BugId = u.BugID }, null)</td>
                     <td>@Html.DisplayFor(modelItem => u.Summary)</td>
                     <td>@Html.DisplayFor(modelItem => u.Assigned) </td>
                     <td>@Html.DisplayFor(modelItem => u.Status)</td>

@@ -32,5 +32,13 @@ namespace Bug_Tracker.Controllers
 
             return RedirectToAction("CurrentBugs", "Bug");
         }
+
+        public ActionResult ViewBug(int BugId)
+        {
+            BugData dataService = new BugData();
+            Bug bug = dataService.GetSpecificBug(BugId);
+            ViewBag.Data = dataService.GetAllBugStatus();
+            return View("ViewBug", bug);
+        }
     }
 }

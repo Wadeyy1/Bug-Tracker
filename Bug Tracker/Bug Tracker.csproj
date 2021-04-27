@@ -349,6 +349,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\UserAdmin.cshtml" />
     <Content Include="Views\UserAdmin\ViewUser.cshtml" />
+    <Content Include="Views\Bug\ViewBug.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

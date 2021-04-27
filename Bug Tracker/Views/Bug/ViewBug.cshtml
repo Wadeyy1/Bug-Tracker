@@ -1,0 +1,50 @@
+﻿@model  Bug_Tracker.Models.Bug
+
+<div class="jumbotron">
+    <h2>#INC-@Model.BugID</h2>
+</div>
+<form class="form-horizontal">
+    <fieldset>
+        <div style="display:flex">
+            <div style="flex: 70%;">
+                <br />
+                <div class="form-group">
+                    <label for="inputSummary" class="col-lg-2 control-label">Summary</label>
+                    <div class="col-lg-10" data-children-count="1">
+                        @Html.TextAreaFor(model => model.Summary, 2, 40, htmlAttributes: new { style = "width: 80%; max-width: 100%; resize: none;", id = "inputSummary" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label for="Description" class="col-lg-2 control-label">Description</label>
+                    <div class="col-lg-10" data-children-count="1">
+                        @Html.TextAreaFor(model => model.Description, 10, 40, htmlAttributes: new { style = "width: 80%; max-width: 100%; resize: none;", id = "Description" })
+                    </div>
+                </div>
+            </div>
+            <div style="flex: 30%;">
+                <div class="form-group" data-children-count="1">
+                    <label class="control-label" for="inputCreatedDate">Created Date</label>
+                    <input type="datetime" class="form-control" id="inputCreatedDate" value="@Model.CreatedDate" readonly="true" style="width: 70%">
+                </div>
+                <div class="form-group" data-children-count="1">
+                    <label class="control-label" for="inputClosedDate">Closed Date</label>
+                    <input type="datetime" class="form-control" id="inputClosedDate" value="@Model.ClosedDate" readonly="true" style="width: 70%">
+                </div>
+                <div class="form-group" data-children-count="1">
+                    <label class="control-label" for="Status">Status</label>
+                    <select class="form-control" id="Status" style="width: 70%; max-width: 100%;">
+                        @foreach (var status in ViewBag.data)
+                        {
+                            <option @(Model.Status == status.StatusName ? "Selected" : "") value="@status.StatusID">@status.StatusName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div>
+            </div>
+        </div>
+    </fieldset>
+</form>
+<div>
+</div>
