@@ -37,10 +37,29 @@ namespace Bug_Tracker.Controllers
         {
             BugData dataService = new BugData();
             Bug bug = dataService.GetSpecificBug(BugId);
+
+            UserAdminData userDataService = new UserAdminData();
+            List<UserAdminModel> Agents = userDataService.GetAllUsers();
+
             List<BugComments> comments = dataService.GetSpecificBugComments(BugId);
             bug.Comments = comments;
             ViewBag.Data = dataService.GetAllBugStatus();
+            ViewBag.Agents = Agents;
             return View("ViewBug", bug);
+        }
+
+        [HttpPost]
+        public ActionResult ViewBug(Models.Bug bu)
+        {
+            ViewBag.Description = Request.Form["Description"];
+            ViewBag.StatusID = Request.Form["Status"];
+            ViewBag.AssignedID = (Request.Form["Assigned"] == "" ? null : Request.Form["Assigned"]);
+            ViewBag.Summary = Request.Form["Summary"];
+
+            BugData dataService = new BugData();
+            dataService.SaveSpecificBug(bu.BugID, ViewBag.Summary, ViewBag.Description, ViewBag.StatusID, ViewBag.AssignedID);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
