@@ -56,10 +56,24 @@ namespace Bug_Tracker.Controllers
             ViewBag.AssignedID = (Request.Form["Assigned"] == "" ? null : Request.Form["Assigned"]);
             ViewBag.Summary = Request.Form["Summary"];
 
-            BugData dataService = new BugData();
-            dataService.SaveSpecificBug(bu.BugID, ViewBag.Summary, ViewBag.Description, ViewBag.StatusID, ViewBag.AssignedID);
+            Int32.TryParse(ViewBag.StatusID, out int StatusID);
 
-            return RedirectToAction("Index", "Home");
+            BugData dataService = new BugData();
+            dataService.SaveSpecificBug(bu.BugID, ViewBag.Summary, ViewBag.Description, StatusID, ViewBag.AssignedID);
+
+            return ViewBug(bu.BugID);
+        }
+
+        [HttpPost]
+        public ActionResult Comment(Models.Bug bu)
+        {
+            ViewBag.Comment = Request.Form["CommentText"];
+            ViewBag.UserName = User.Identity.Name;
+
+            BugData dataService = new BugData();
+            dataService.CreateNewBugComment(ViewBag.UserName, ViewBag.Comment, bu.BugID);
+
+            return ViewBug(bu.BugID);
         }
     }
 }

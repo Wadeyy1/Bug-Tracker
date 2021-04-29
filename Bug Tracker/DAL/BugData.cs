@@ -71,7 +71,19 @@ namespace Bug_Tracker.DAL
             }
         }
 
-        public void SaveSpecificBug(int BugID, string Summary, string Description, int StatusID, int? AssignedID)
+        public void CreateNewBugComment(string UserName, string Comment, int BugID)
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                DynamicParameters parameter = new DynamicParameters();
+                parameter.Add("@UserName", UserName, DbType.String);
+                parameter.Add("@Comment", Comment, DbType.String);
+                parameter.Add("@BugID", BugID, DbType.Int64);
+                db.Execute("prc_CreateNewBugComment", parameter, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public void SaveSpecificBug(int BugID, string Summary, string Description, int StatusID, string AssignedID)
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
@@ -80,7 +92,7 @@ namespace Bug_Tracker.DAL
                 parameter.Add("@Summary", Summary, DbType.String);
                 parameter.Add("@Description", Description, DbType.String);
                 parameter.Add("@StatusID", StatusID, DbType.Int64);
-                parameter.Add("@AssignedID", AssignedID, DbType.Int64);
+                parameter.Add("@AssignedID", AssignedID, DbType.String);
                 db.Execute("prc_UpdateSpecificBug", parameter, commandType: CommandType.StoredProcedure);
             }
         }

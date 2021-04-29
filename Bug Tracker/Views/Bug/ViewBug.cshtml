@@ -8,6 +8,7 @@
         <div style="display:flex">
             <div style="flex: 70%;">
                 <br />
+                <input name="BugID" hidden value="@Model.BugID" />
                 <div class="form-group">
                     <label for="Summary" class="col-lg-2 control-label">Summary</label>
                     <div class="col-lg-10" data-children-count="1">
@@ -23,7 +24,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        <button type="reset" class="btn btn-default" onclick="location.href='@Url.Action("UserAdmin", "Home")'">Back</button>
+                        <button type="reset" class="btn btn-default" onclick="location.href='@Url.Action("CurrentBugs", "Bug")'">Back</button>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </div>
@@ -82,4 +83,14 @@
     </fieldset>
 </form>
 <div>
+    <form class="form-horizontal" method="post" action="Comment">
+        <fieldset>
+            <div class="form-group">
+                <input name="BugID" hidden value="@Model.BugID" />
+                <textarea cols="10" rows="10" style=" width: 80%; max-width: 100%; resize: none; display: block; margin-left: auto; margin-right: auto;" name="CommentText"></textarea>
+                <br />
+                <button type="submit" class="btn btn-primary" style="margin-left: 10%;">Add Comment</button>
+            </div>
+        </fieldset>
+    </form>
 </div>
