@@ -1,96 +1,99 @@
-﻿@model  Bug_Tracker.Models.Bug
+﻿@model Bug_Tracker.Models.Bug
 
-<div class="jumbotron">
-    <h2>#INC-@Model.BugID</h2>
-</div>
-<form class="form-horizontal" method="post" action="ViewBug">
-    <fieldset>
-        <div style="display:flex">
-            <div style="flex: 70%;">
-                <br />
-                <input name="BugID" hidden value="@Model.BugID" />
-                <div class="form-group">
-                    <label for="Summary" class="col-lg-2 control-label">Summary</label>
-                    <div class="col-lg-10" data-children-count="1">
-                        @Html.TextAreaFor(model => model.Summary, 2, 40, htmlAttributes: new { style = "width: 80%; max-width: 100%; resize: none;", name = "Summary" })
-                    </div>
-                </div>
-                <br />
-                <div class="form-group">
-                    <label for="Description" class="col-lg-2 control-label">Description</label>
-                    <div class="col-lg-10" data-children-count="1">
-                        @Html.TextAreaFor(model => model.Description, 10, 40, htmlAttributes: new { style = "width: 80%; max-width: 100%; resize: none;", name = "Description" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
-                        <button type="reset" class="btn btn-default" onclick="location.href='@Url.Action("CurrentBugs", "Bug")'">Back</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
-                </div>
-            </div>
-            <div style="flex: 30%;">
-                <div class="form-group" data-children-count="1">
-                    <label class="control-label" for="inputCreatedDate">Created Date</label>
-                    <input type="datetime" class="form-control" name="inputCreatedDate" value="@Model.CreatedDate" readonly="true" style="width: 70%">
-                </div>
-                <div class="form-group" data-children-count="1">
-                    <label class="control-label" for="inputClosedDate">Closed Date</label>
-                    <input type="datetime" class="form-control" name="inputClosedDate" value="@Model.ClosedDate" readonly="true" style="width: 70%">
-                </div>
-                <div class="form-group" data-children-count="1">
-                    <label class="control-label" for="Status">Status</label>
-                    <select class="form-control" name="Status" style="width: 70%; max-width: 100%;">
-                        @foreach (var status in ViewBag.data)
-                        {
-                            <option @(Model.Status == status.StatusName ? "Selected" : "") value="@status.StatusID">@status.StatusName</option>
-                        }
-                    </select>
-                </div>
-                <div class="form-group" data-children-count="1">
-                    <label class="control-label" for="Assigned">Assigned</label>
-                    <select class="form-control" name="Assigned" style="width: 70%; max-width: 100%;">
-                        <option></option>
-                        @foreach (var Assigned in ViewBag.Agents)
-                        {
-                            <option @(Model.Assigned == Assigned.UserName ? "Selected" : "") value="@Assigned.ID">@Assigned.UserName</option>
-                        }
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div>
-            <table class="table table-striped table-hover " id="commentsTable">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>User</th>
-                        <th>Comment</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var comment in Model.Comments)
-                    {
-                        <tr>
-                            <td>@Html.DisplayFor(modelItem => comment.CommentDate)</td>
-                            <td>@Html.DisplayFor(modelItem => comment.UserName)</td>
-                            <td width="60%">@Html.DisplayFor(modelItem => comment.Comment)</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </fieldset>
-</form>
-<div>
-    <form class="form-horizontal" method="post" action="Comment">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <div class="jumbotron">
+        <h2>#INC-@Model.BugID</h2>
+        <i style="align-self:end;" class="fas fa-trash-alt"></i>
+    </div>
+    <form class="form-horizontal" method="post" action="ViewBug">
         <fieldset>
-            <div class="form-group">
-                <input name="BugID" hidden value="@Model.BugID" />
-                <textarea cols="10" rows="10" style=" width: 80%; max-width: 100%; resize: none; display: block; margin-left: auto; margin-right: auto;" name="CommentText"></textarea>
-                <br />
-                <button type="submit" class="btn btn-primary" style="margin-left: 10%;">Add Comment</button>
+            <div style="display:flex">
+                <div style="flex: 70%;">
+                    <br />
+                    <input name="BugID" hidden value="@Model.BugID" />
+                    <div class="form-group">
+                        <label for="Summary" class="col-lg-2 control-label">Summary</label>
+                        <div class="col-lg-10" data-children-count="1">
+                            @Html.TextAreaFor(model => model.Summary, 2, 40, htmlAttributes: new { style = "width: 80%; max-width: 100%; resize: none;", name = "Summary" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label for="Description" class="col-lg-2 control-label">Description</label>
+                        <div class="col-lg-10" data-children-count="1">
+                            @Html.TextAreaFor(model => model.Description, 10, 40, htmlAttributes: new { style = "width: 80%; max-width: 100%; resize: none;", name = "Description" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+                            <button type="reset" class="btn btn-default" onclick="location.href='@Url.Action("CurrentBugs", "Bug")'">Back</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="flex: 30%;">
+                    <div class="form-group" data-children-count="1">
+                        <label class="control-label" for="inputCreatedDate">Created Date</label>
+                        <input type="datetime" class="form-control" name="inputCreatedDate" value="@Model.CreatedDate" readonly="true" style="width: 70%">
+                    </div>
+                    <div class="form-group" data-children-count="1">
+                        <label class="control-label" for="inputClosedDate">Closed Date</label>
+                        <input type="datetime" class="form-control" name="inputClosedDate" value="@Model.ClosedDate" readonly="true" style="width: 70%">
+                    </div>
+                    <div class="form-group" data-children-count="1">
+                        <label class="control-label" for="Status">Status</label>
+                        <select class="form-control" name="Status" style="width: 70%; max-width: 100%;">
+                            @foreach (var status in ViewBag.data)
+                            {
+                                <option @(Model.Status == status.StatusName ? "Selected" : "") value="@status.StatusID">@status.StatusName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group" data-children-count="1">
+                        <label class="control-label" for="Assigned">Assigned</label>
+                        <select class="form-control" name="Assigned" style="width: 70%; max-width: 100%;">
+                            <option></option>
+                            @foreach (var Assigned in ViewBag.Agents)
+                            {
+                                <option @(Model.Assigned == Assigned.UserName ? "Selected" : "") value="@Assigned.ID">@Assigned.UserName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <table class="table table-striped table-hover " id="commentsTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>User</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var comment in Model.Comments)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => comment.CommentDate)</td>
+                                <td>@Html.DisplayFor(modelItem => comment.UserName)</td>
+                                <td width="60%">@Html.DisplayFor(modelItem => comment.Comment)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </fieldset>
     </form>
-</div>
+    <div>
+        <form class="form-horizontal" method="post" action="Comment">
+            <fieldset>
+                <div class="form-group">
+                    <input name="BugID" hidden value="@Model.BugID" />
+                    <textarea cols="10" rows="10" style=" width: 80%; max-width: 100%; resize: none; display: block; margin-left: auto; margin-right: auto;" name="CommentText"></textarea>
+                    <br />
+                    <button type="submit" class="btn btn-primary" style="margin-left: 10%;">Add Comment</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
