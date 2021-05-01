@@ -96,5 +96,15 @@ namespace Bug_Tracker.DAL
                 db.Execute("prc_UpdateSpecificBug", parameter, commandType: CommandType.StoredProcedure);
             }
         }
+
+        public void DeleteSpecificBug(int BugID)
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                DynamicParameters parameter = new DynamicParameters();
+                parameter.Add("@BugID", BugID, DbType.Int64);
+                db.Execute("prc_DeleteSpecificBug", parameter, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }

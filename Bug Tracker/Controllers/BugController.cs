@@ -75,5 +75,13 @@ namespace Bug_Tracker.Controllers
 
             return ViewBug(bu.BugID);
         }
+
+        public ActionResult DeleteBug(int BugID)
+        {
+            BugData dataService = new BugData();
+            dataService.DeleteSpecificBug(BugID);
+
+            return RedirectToAction("CurrentBugs", "Bug");
+        }
     }
 }
