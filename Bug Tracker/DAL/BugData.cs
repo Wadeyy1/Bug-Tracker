@@ -15,7 +15,7 @@ namespace Bug_Tracker.DAL
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
                 return db.Query<Bug>
-                 ("SELECT db.BugID, db.Summary, db.Description, anu.UserName as [Assigned], rbs.Description as [Status], db.CreatedDate, db.ClosedDate FROM Dat_Bug db INNER JOIN Ref_Bug_Status rbs ON db.StatusID = rbs.StatusID LEFT JOIN AspNetUsers anu ON db.AssignedID = anu.Id").ToList();
+                 ("SELECT db.BugID, db.Summary, db.Description, anu.UserName as [Assigned], rbs.Description as [Status], db.CreatedDate, db.ClosedDate, rbp.PriorityName FROM Dat_Bug db INNER JOIN Ref_Bug_Status rbs ON db.StatusID = rbs.StatusID LEFT JOIN AspNetUsers anu ON db.AssignedID = anu.Id INNER JOIN Ref_Bug_Priority rbp on db.PriorityID = rbp.PriorityID").ToList();
             }
         }
 
@@ -26,7 +26,7 @@ namespace Bug_Tracker.DAL
                 DynamicParameters parameter = new DynamicParameters();
                 parameter.Add("@BugID", BugID, DbType.Int32);
                 return db.QueryFirstOrDefault<Bug>
-                 ("SELECT db.BugID, db.Summary, db.Description, anu.UserName as [Assigned], rbs.Description as [Status], db.CreatedDate, db.ClosedDate FROM Dat_Bug db INNER JOIN Ref_Bug_Status rbs ON db.StatusID = rbs.StatusID LEFT JOIN AspNetUsers anu ON db.AssignedID = anu.Id WHERE db.BugID = @BugID", parameter);
+                 ("SELECT db.BugID, db.Summary, db.Description, anu.UserName as [Assigned], rbs.Description as [Status], db.CreatedDate, db.ClosedDate, db.CreatedBy, rbp.PriorityName FROM Dat_Bug db INNER JOIN Ref_Bug_Status rbs ON db.StatusID = rbs.StatusID LEFT JOIN AspNetUsers anu ON db.AssignedID = anu.Id INNER JOIN Ref_Bug_Priority rbp on db.PriorityID = rbp.PriorityID WHERE db.BugID = @BugID", parameter);
             }
         }
 
@@ -59,7 +59,16 @@ namespace Bug_Tracker.DAL
             }
         }
 
-        public void CreateNewBug(string AssignedID, string Summary, string Description)
+        public List<Priority> GetAllBugPriority()
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                return db.Query<Priority>
+                    ("SELECT rbp.PriorityID, rbp.PriorityName FROM Ref_Bug_Priority rbp").ToList();
+            }
+        }
+
+        public void CreateNewBug(string AssignedID, string Summary, string Description, string CreatedBy, int PriorityID)
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
@@ -67,6 +76,8 @@ namespace Bug_Tracker.DAL
                 parameter.Add("@UserAssignedID", AssignedID, DbType.String);
                 parameter.Add("@Summary", Summary, DbType.String);
                 parameter.Add("@Description", Description, DbType.String);
+                parameter.Add("@CreatedBy", CreatedBy, DbType.String);
+                parameter.Add("@PriorityID", PriorityID, DbType.Int64);
                 db.Execute("prc_CreateNewBug", parameter, commandType: CommandType.StoredProcedure);
             }
         }
@@ -83,7 +94,7 @@ namespace Bug_Tracker.DAL
             }
         }
 
-        public void SaveSpecificBug(int BugID, string Summary, string Description, int StatusID, string AssignedID)
+        public void SaveSpecificBug(int BugID, string Summary, string Description, int StatusID, string AssignedID, string UpdateUserName, int PriorityID)
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
@@ -93,6 +104,8 @@ namespace Bug_Tracker.DAL
                 parameter.Add("@Description", Description, DbType.String);
                 parameter.Add("@StatusID", StatusID, DbType.Int64);
                 parameter.Add("@AssignedID", AssignedID, DbType.String);
+                parameter.Add("@UpdateUserName", UpdateUserName, DbType.String);
+                parameter.Add("@PriorityID", PriorityID, DbType.Int64);
                 db.Execute("prc_UpdateSpecificBug", parameter, commandType: CommandType.StoredProcedure);
             }
         }

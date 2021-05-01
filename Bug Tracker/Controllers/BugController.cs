@@ -17,6 +17,9 @@ namespace Bug_Tracker.Controllers
 
             List<Bug> bugs = dataService.GetAllBugs();
             ViewBag.Data = dataService.GetAllAgentUsernames();
+            ViewBag.Status = dataService.GetAllBugStatus();
+            ViewBag.Priority = dataService.GetAllBugPriority();
+
             return View("CurrentBugs", bugs);
         }
 
@@ -26,9 +29,13 @@ namespace Bug_Tracker.Controllers
             ViewBag.Summary = Request.Form["Summary"];
             ViewBag.Description = Request.Form["Description"];
             ViewBag.AssignedID = Request.Form["userAssigned"];
+            ViewBag.PriorityID = Request.Form["PrioritySelected"];
+            ViewBag.UserName = User.Identity.Name;
+
+            Int32.TryParse(ViewBag.PriorityID, out int PriorityID);
 
             BugData dataService = new BugData();
-            dataService.CreateNewBug(ViewBag.AssignedID, ViewBag.Summary, ViewBag.Description);
+            dataService.CreateNewBug(ViewBag.AssignedID, ViewBag.Summary, ViewBag.Description, ViewBag.UserName, PriorityID);
 
             return RedirectToAction("CurrentBugs", "Bug");
         }
@@ -45,6 +52,7 @@ namespace Bug_Tracker.Controllers
             bug.Comments = comments;
             ViewBag.Data = dataService.GetAllBugStatus();
             ViewBag.Agents = Agents;
+            ViewBag.Priority = dataService.GetAllBugPriority();
             return View("ViewBug", bug);
         }
 
@@ -55,11 +63,14 @@ namespace Bug_Tracker.Controllers
             ViewBag.StatusID = Request.Form["Status"];
             ViewBag.AssignedID = (Request.Form["Assigned"] == "" ? null : Request.Form["Assigned"]);
             ViewBag.Summary = Request.Form["Summary"];
+            ViewBag.PriorityID = Request.Form["Priority"];
+            ViewBag.UpdateUserName = User.Identity.Name;
 
             Int32.TryParse(ViewBag.StatusID, out int StatusID);
+            Int32.TryParse(ViewBag.PriorityID, out int PriorityID);
 
             BugData dataService = new BugData();
-            dataService.SaveSpecificBug(bu.BugID, ViewBag.Summary, ViewBag.Description, StatusID, ViewBag.AssignedID);
+            dataService.SaveSpecificBug(bu.BugID, ViewBag.Summary, ViewBag.Description, StatusID, ViewBag.AssignedID, ViewBag.UpdateUserName, PriorityID);
 
             return ViewBug(bu.BugID);
         }

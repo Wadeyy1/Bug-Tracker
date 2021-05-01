@@ -15,6 +15,8 @@ namespace Bug_Tracker.Models
         public DateTime? CreatedDate { get; set; }
         public DateTime? ClosedDate { get; set; }
         public List<BugComments> Comments { get; set; }
+        public string CreatedBy { get; set; }
+        public string PriorityName { get; set; }
 
         public Bug()
         {
@@ -45,6 +47,16 @@ namespace Bug_Tracker.Models
         public string StatusName { get; set; }
 
         public Status()
+        {
+        }
+    }
+
+    public class Priority
+    {
+        public int PriorityID { get; set; }
+        public string PriorityName { get; set; }
+
+        public Priority()
         {
         }
     }

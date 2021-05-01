@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label for="Description" class="col-lg-2 control-label">Description</label>
                     <div class="col-lg-10" data-children-count="1">
-                        @Html.TextAreaFor(model => model.Description, 10, 40, htmlAttributes: new { style = "width: 80%; max-width: 100%; resize: none;", name = "Description" })
+                        @Html.TextAreaFor(model => model.Description, 18, 40, htmlAttributes: new { style = "width: 80%; max-width: 100%; resize: none;", name = "Description" })
                     </div>
                 </div>
                 <div class="form-group">
@@ -32,6 +32,10 @@
                 </div>
             </div>
             <div style="flex: 30%;">
+                <div class="form-group" data-children-count="1">
+                    <label class="control-label" for="inputCreatedDate">Created By</label>
+                    <input type="text" class="form-control" name="inputCreatedDate" value="@Model.CreatedBy" readonly="true" style="width: 70%">
+                </div>
                 <div class="form-group" data-children-count="1">
                     <label class="control-label" for="inputCreatedDate">Created Date</label>
                     <input type="datetime" class="form-control" name="inputCreatedDate" value="@Model.CreatedDate" readonly="true" style="width: 70%">
@@ -59,6 +63,15 @@
                         }
                     </select>
                 </div>
+                <div class="form-group" data-children-count="1">
+                    <label class="control-label" for="Priority">Priority</label>
+                    <select class="form-control" name="Priority" style="width: 70%; max-width: 100%;">
+                        @foreach (var priority in ViewBag.Priority)
+                        {
+                            <option @(Model.PriorityName == priority.PriorityName ? "Selected" : "") value="@priority.PriorityID">@priority.PriorityName</option>
+                        }
+                    </select>
+                </div>
             </div>
         </div>
         <div>
@@ -73,9 +86,9 @@
                 <tbody>
                     @foreach (var comment in Model.Comments)
                     {
-                        <tr>
-                            <td>@Html.DisplayFor(modelItem => comment.CommentDate)</td>
-                            <td>@Html.DisplayFor(modelItem => comment.UserName)</td>
+                        <tr class="@(comment.UserName == "System" ? "warning" : "info")">
+                            <td style="vertical-align:middle;">@Html.DisplayFor(modelItem => comment.CommentDate)</td>
+                            <td style="vertical-align:middle;">@Html.DisplayFor(modelItem => comment.UserName)</td>
                             <td width="60%">@Html.DisplayFor(modelItem => comment.Comment)</td>
                         </tr>
                     }
