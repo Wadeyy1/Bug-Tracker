@@ -37,7 +37,7 @@ namespace Bug_Tracker.DAL
                 DynamicParameters parameter = new DynamicParameters();
                 parameter.Add("@BugID", BugID, DbType.Int32);
                 return db.Query<BugComments>
-                 ("SELECT dbc.CommentID, anu.UserName, dbc.CommentDate, dbc.Comment FROM Dat_Bug db INNER JOIN Lnk_Bug_Comment lbc on db.BugID = lbc.BugID INNER JOIN Dat_Bug_Comment dbc on lbc.CommentID = dbc.CommentID LEFT JOIN AspNetUsers anu ON dbc.UserID = anu.Id WHERE db.BugID = @BugID", parameter).ToList();
+                 ("SELECT dbc.CommentID, anu.UserName, dbc.CommentDate, dbc.Comment FROM Dat_Bug db INNER JOIN Lnk_Bug_Comment lbc on db.BugID = lbc.BugID INNER JOIN Dat_Bug_Comment dbc on lbc.CommentID = dbc.CommentID LEFT JOIN AspNetUsers anu ON dbc.UserID = anu.Id WHERE db.BugID = @BugID ORDER BY dbc.CommentDate desc", parameter).ToList();
             }
         }
 

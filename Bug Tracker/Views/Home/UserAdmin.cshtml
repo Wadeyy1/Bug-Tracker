@@ -2,23 +2,26 @@
 @{
     ViewBag.Title = "User Admin";
 }
-<h2>@ViewBag.Title.</h2>
-<p>Use this area to provide additional information.</p>
+<div class="panel panel-default">
+    <div class="jumbotron">
+        <h2>@ViewBag.Title</h2>
+    </div>
 
-<table class="table table-hover">
-    <tr>
-        <th>UserName</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>View User</th>
-    </tr>
-    @foreach (var u in Model)
-    {
+    <table class="table table-hover">
         <tr>
-            <td>@Html.DisplayFor(modelItem => u.UserName)</td>
-            <td>@Html.DisplayFor(modelItem => u.Email)</td>
-            <td>@Html.DisplayFor(modelItem => u.Role)</td>
-            <td>@Html.ActionLink("View", "ViewUser", "UserAdmin", new { UserId = u.ID }, null)</td>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>View User</th>
         </tr>
-    }
-</table>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => u.UserName)</td>
+                <td>@Html.DisplayFor(modelItem => u.Email)</td>
+                <td>@Html.DisplayFor(modelItem => u.Role)</td>
+                <td>@Html.ActionLink("View", "ViewUser", "UserAdmin", new { UserId = u.ID }, null)</td>
+            </tr>
+        }
+    </table>
+</div>

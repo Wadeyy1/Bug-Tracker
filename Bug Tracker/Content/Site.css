@@ -24,7 +24,7 @@ textarea {
 }
 
 .collapsible {
-    background-color: #777;
+    background-color: #3e3f3a;
     color: white;
     cursor: pointer;
     padding: 18px;
@@ -35,7 +35,7 @@ textarea {
     font-size: 15px;
 }
 
-    .active, .collapsible:hover {
+    .collapsible:hover {
         background-color: #555;
     }
 

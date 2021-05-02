@@ -3,6 +3,8 @@ using Bug_Tracker.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -84,6 +86,8 @@ namespace Bug_Tracker.Controllers
             BugData dataService = new BugData();
             dataService.CreateNewBugComment(ViewBag.UserName, ViewBag.Comment, bu.BugID);
 
+            SendEmail("jackwade19@gmail.com", "Test Email", ViewBag.Comment);
+
             return ViewBug(bu.BugID);
         }
 
@@ -93,6 +97,42 @@ namespace Bug_Tracker.Controllers
             dataService.DeleteSpecificBug(BugID);
 
             return RedirectToAction("CurrentBugs", "Bug");
+        }
+
+        public void SendEmail(string receiver, string subject, string message)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var senderEmail = new MailAddress("jackwade19@gmail.com", "Jack W");
+                    var receiverEmail = new MailAddress(receiver, "Receiver");
+                    var password = "P3nf01d!999";
+                    var sub = subject;
+                    var body = message;
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(senderEmail.Address, password)
+                    };
+                    using (var mess = new MailMessage(senderEmail, receiverEmail)
+                    {
+                        Subject = subject,
+                        Body = body
+                    })
+                    {
+                        smtp.Send(mess);
+                    }
+                }
+            }
+            catch (Exception oException)
+            {
+                ViewBag.Error = "Some Error";
+            }
         }
     }
 }

@@ -2,15 +2,17 @@
 @{
     ViewBag.Title = "Current Bugs";
 }
-<br />
-<div class="panel panel-success">
-    <div class="panel-heading"><h2>@ViewBag.Title</h2></div>
+<div class="panel panel-default">
+    <div class="jumbotron">
+        <h2>@ViewBag.Title</h2>
+    </div>
+
     <div class="panel-body">
         <div align="right">
             <button type="button" class="btn btn-default" data-target="#MyModal" data-toggle="modal">Create Bug</button>
             <p>&ensp;</p>
         </div>
-        <button class="collapsible">Open Bug Filters</button>
+        <button class="collapsible">&plus; Open Bug Filters</button>
         <div class="filtercontent">
             <table border="0" cellspacing="5" cellpadding="5" style="border-spacing: 10px; border-collapse: separate;">
                 <tbody>
@@ -18,7 +20,6 @@
                         <td>
                             <label class="control-label" for="StatusFilter">Status:</label>
                             <select class="form-control" name="StatusFilter" id="StatusFilter">
-                                <option value=""></option>
                                 @foreach (var status in ViewBag.Status)
                                 {
                                     <option value="@status.StatusName">@status.StatusName</option>
@@ -91,7 +92,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="PrioritySelected" class="col-lg-2 control-label">Priority</label>
+                                    <label for="PrioritySelected" class="col-lg-2 control-label">Priority*</label>
                                     <div class="col-lg-10" data-children-count="2">
                                         <select class="form-control" id="PrioritySelected" name="PrioritySelected" required>
                                             @foreach (var priority in ViewBag.Priority)
@@ -141,7 +142,7 @@
                                     break;
                                 case "High":
                                     <text>danger</text>
-                                    break;                   
+                                    break;
                             }}">
                         <td>@Html.ActionLink("#" + @Html.DisplayFor(modelItem => u.BugID).ToString(), "ViewBug", "Bug", new { BugId = u.BugID }, null)</td>
                         <td>@Html.DisplayFor(modelItem => u.Summary)</td>
@@ -212,6 +213,4 @@
             });
         }
     </script>
-
-
 }
