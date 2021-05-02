@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <div class="panel panel-default">
     <div class="jumbotron">
-        <h2>#INC-@Model.BugID <button class="btn btn-default" style="float:right; text-align:initial;" data-target="#MyModal" data-toggle="modal"><i style="float:right; text-align:initial;" class="fas fa-trash-alt"></i></button></h2>
+        <h2>#INC-@Model.BugID <button class="btn btn-danger" style="float:right; text-align:initial;" data-target="#MyModal" data-toggle="modal"><i style="float:right; text-align:initial;" class="fas fa-trash-alt"></i></button></h2>
     </div>
     <form class="form-horizontal" method="post" action="ViewBug">
         <fieldset>
@@ -103,6 +103,7 @@
             <fieldset>
                 <div class="form-group">
                     <input name="BugID" hidden value="@Model.BugID" />
+                    <input name="Assigned" hidden value="@Model.Assigned" />
                     <textarea cols="10" rows="10" style=" width: 80%; max-width: 100%; resize: none; display: block; margin-left: auto; margin-right: auto;" name="CommentText"></textarea>
                     <br />
                     <button type="submit" class="btn btn-primary" style="margin-left: 10%;">Add Comment</button>

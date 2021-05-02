@@ -2,6 +2,7 @@
 using Bug_Tracker.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -85,8 +86,13 @@ namespace Bug_Tracker.Controllers
 
             BugData dataService = new BugData();
             dataService.CreateNewBugComment(ViewBag.UserName, ViewBag.Comment, bu.BugID);
+            string subject = "#INC-" + bu.BugID + " Comment Added";
 
-            SendEmail("jackwade19@gmail.com", "Test Email", ViewBag.Comment);
+            if (bu.Assigned != "")
+            {
+                string Message = CreateHTMLBody(bu.BugID, ViewBag.UserName + " added a note: " + ViewBag.Comment);
+                SendEmail(bu.Assigned, subject, Message);
+            }
 
             return ViewBug(bu.BugID);
         }
@@ -107,7 +113,7 @@ namespace Bug_Tracker.Controllers
                 {
                     var senderEmail = new MailAddress("jackwade19@gmail.com", "Jack W");
                     var receiverEmail = new MailAddress(receiver, "Receiver");
-                    var password = "P3nf01d!999";
+                    var password = ConfigurationManager.AppSettings["EmailPassword"];
                     var sub = subject;
                     var body = message;
                     var smtp = new SmtpClient
@@ -131,8 +137,13 @@ namespace Bug_Tracker.Controllers
             }
             catch (Exception oException)
             {
-                ViewBag.Error = "Some Error";
+                ViewBag.Error = oException;
             }
+        }
+
+        private string CreateHTMLBody(int BugID, string message)
+        {
+            return $"Update on ticket #INC -{BugID}\n\n{message}";
         }
     }
 }
