@@ -26,6 +26,20 @@ namespace Bug_Tracker.Controllers
             return View("CurrentBugs", bugs);
         }
 
+        [Authorize(Roles = "User, Admin")]
+        public ActionResult CurrentUserBugs()
+        {
+            BugData dataService = new BugData();
+            ViewBag.UserName = User.Identity.Name;
+
+            List<Bug> bugs = dataService.GetAllUsersBugs(ViewBag.UserName);
+            ViewBag.Data = dataService.GetAllAgentUsernames();
+            ViewBag.Status = dataService.GetAllBugStatus();
+            ViewBag.Priority = dataService.GetAllBugPriority();
+
+            return View("CurrentUserBugs", bugs);
+        }
+
         [HttpPost]
         public ActionResult BugCreateForm(Models.Bug bu)
         {

@@ -1,6 +1,7 @@
 ﻿using Bug_Tracker.DAL;
 using Bug_Tracker.Models;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Bug_Tracker.Controllers
@@ -20,6 +21,11 @@ namespace Bug_Tracker.Controllers
             List<UserAdminModel> users = dataService.GetAllUsers();
 
             return View("UserAdmin", users);
+        }
+
+        public ActionResult PDFView()
+        {
+            return View();
         }
     }
 }

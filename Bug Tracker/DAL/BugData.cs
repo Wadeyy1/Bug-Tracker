@@ -19,6 +19,17 @@ namespace Bug_Tracker.DAL
             }
         }
 
+        public List<Bug> GetAllUsersBugs(string UserName)
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                DynamicParameters parameter = new DynamicParameters();
+                parameter.Add("@UserName", UserName, DbType.String);
+                return db.Query<Bug>
+                 ("SELECT db.BugID, db.Summary, db.Description, anu.UserName as [Assigned], rbs.Description as [Status], db.CreatedDate, db.ClosedDate, rbp.PriorityName FROM Dat_Bug db INNER JOIN Ref_Bug_Status rbs ON db.StatusID = rbs.StatusID LEFT JOIN AspNetUsers anu ON db.AssignedID = anu.Id INNER JOIN Ref_Bug_Priority rbp on db.PriorityID = rbp.PriorityID WHERE db.CreatedBy = @UserName", parameter).ToList();
+            }
+        }
+
         public Bug GetSpecificBug(int BugID)
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))

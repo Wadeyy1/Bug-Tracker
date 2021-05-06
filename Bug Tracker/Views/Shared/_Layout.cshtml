@@ -18,6 +18,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("Bug Tracker", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
@@ -25,6 +26,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Project Information", "Index", "Home")</li>
                     <li>@Html.ActionLink("Current Bugs", "CurrentBugs", "Bug")</li>
+                    <li>@Html.ActionLink("My Bugs", "CurrentUserBugs", "Bug")</li>
                     <li>@Html.ActionLink("User Admin", "UserAdmin", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")

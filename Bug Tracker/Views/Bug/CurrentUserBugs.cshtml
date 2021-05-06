@@ -1,0 +1,215 @@
+﻿@model List<Bug_Tracker.Models.Bug>
+@{
+    ViewBag.Title = "Your Current Bugs";
+}
+<div class="panel panel-default">
+    <div class="jumbotron">
+        <h2>@ViewBag.Title</h2>
+    </div>
+
+    <div class="panel-body">
+        <div align="right">
+            <button type="button" class="btn btn-default" data-target="#MyModal" data-toggle="modal">Create Bug</button>
+            <p>&ensp;</p>
+        </div>
+        <button class="collapsible">&plus; Open Bug Filters</button>
+        <div class="filtercontent">
+            <table border="0" cellspacing="5" cellpadding="5" style="border-spacing: 10px; border-collapse: separate;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <label class="control-label" for="StatusFilter">Status:</label>
+                            <select class="form-control" name="StatusFilter" id="StatusFilter">
+                                @foreach (var status in ViewBag.Status)
+                                {
+                                    <option value="@status.StatusName">@status.StatusName</option>
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <label class="control-label" for="AssignedFilter">Assigned:</label>
+                            <select class="form-control" name="AssignedFilter" id="AssignedFilter">
+                                <option value=""></option>
+                                @foreach (var user in ViewBag.data)
+                                {
+                                    <option value="@user.UserName">@user.UserName</option>
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <label class="control-label" for="PriorityFilter">Priority:</label>
+                            <select class="form-control" name="PriorityFilter" id="PriorityFilter">
+                                <option value=""></option>
+                                @foreach (var priority in ViewBag.Priority)
+                                {
+                                    <option value="@priority.PriorityName">@priority.PriorityName</option>
+                                }
+                            </select>
+                        </td>
+                        <td width=80px>
+                            <label class="control-label" for="ClearFilter">Clear Filters</label>
+                            <button class="form-control btn btn-default" id="ClearFilter" name="ClearFilter" onclick="location.href='@Url.Action("CurrentBugs", "Bug")'">&times;</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <div class="modal" id="MyModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal">&times;</button>
+                        <h4>Create New Bug</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" method="post" action="BugCreateForm">
+                            <fieldset>
+                                <span class="help-block">All fields marked with * are manditory.</span>
+                                <div class="form-group">
+                                    <label for="Summary" class="col-lg-2 control-label">Summary*</label>
+                                    <div class="col-lg-10" data-children-count="1">
+                                        <input type="text" class="form-control" id="Summary" name="Summary" placeholder="Summary" data-kwimpalastatus="alive" data-kwimpalaid="1618754883458-1" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Description" class="col-lg-2 control-label">Description</label>
+                                    <div class="col-lg-10" data-children-count="1">
+                                        <textarea class="form-control" rows="3" id="Description" name="Description"></textarea>
+                                        <span class="help-block">Please provide full detail around the bug.</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userAssigned" class="col-lg-2 control-label">Assigned</label>
+                                    <div class="col-lg-10" data-children-count="2">
+                                        <select class="form-control" id="userAssigned" name="userAssigned">
+                                            <option selected></option>
+                                            @foreach (var user in ViewBag.data)
+                                            {
+                                                <option value="@user.Id">@user.UserName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="PrioritySelected" class="col-lg-2 control-label">Priority*</label>
+                                    <div class="col-lg-10" data-children-count="2">
+                                        <select class="form-control" id="PrioritySelected" name="PrioritySelected" required>
+                                            @foreach (var priority in ViewBag.Priority)
+                                            {
+                                                <option value="@priority.PriorityID">@priority.PriorityName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-10 col-lg-offset-2">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table id="BugTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Bug ID</th>
+                    <th>Summary</th>
+                    <th>Assigned</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var u in Model)
+                {
+                    <tr class="@{
+                            switch(u.PriorityName)
+                            {
+                                case "Low":
+                                    <text>success</text>
+                                    break;
+                                case "Medium":
+                                    <text>warning</text>
+                                    break;
+                                case "High":
+                                    <text>danger</text>
+                                    break;
+                            }}">
+                        <td>@Html.ActionLink("#" + @Html.DisplayFor(modelItem => u.BugID).ToString(), "ViewBug", "Bug", new { BugId = u.BugID }, null)</td>
+                        <td>@Html.DisplayFor(modelItem => u.Summary)</td>
+                        <td>@Html.DisplayFor(modelItem => u.Assigned) </td>
+                        <td>@Html.DisplayFor(modelItem => u.Status)</td>
+                        <td>@Html.DisplayFor(modelItem => u.PriorityName)</td>
+                        <td>@Html.DisplayFor(modelItem => u.CreatedDate)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var filterstatus = $('#StatusFilter').val().toString();
+                var filterpriority = $('#PriorityFilter').val().toString();
+                var filterassigned = $('#AssignedFilter').val().toString();
+                var status = data[3].toString();
+                var assigned = data[2].toString();
+                var priority = data[4].toString();
+
+                if ((status == filterstatus && assigned == filterassigned && priority == filterpriority) ||
+                    (filterstatus == status && filterassigned == "" && filterpriority == "") ||
+                    (filterstatus == status && filterassigned == assigned && filterpriority == "") ||
+                    (filterstatus == status && filterassigned == "" && filterpriority == priority) ||
+                    (filterassigned == assigned && filterstatus == "" && filterpriority == "") ||
+                    (filterassigned == assigned && filterstatus == status && filterpriority == "") ||
+                    (filterassigned == assigned && filterstatus == "" && filterpriority == priority) ||
+                    (filterpriority == priority && filterstatus == "" && filterassigned == "") ||
+                    (filterpriority == priority && filterstatus == status && filterassigned == "") ||
+                    (filterpriority == priority && filterstatus == "" && filterassigned == assigned) ||
+                    (filterassigned == "" && filterstatus == "" && filterpriority == "")) {
+                    return true;
+                }
+                return false;
+            }
+        );
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('#BugTable').DataTable();
+
+            // Event listener to the two range filtering inputs to redraw on input
+            $('#StatusFilter,#AssignedFilter,#PriorityFilter').change(function () {
+                table.draw();
+            });
+        });
+    </script>
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+}

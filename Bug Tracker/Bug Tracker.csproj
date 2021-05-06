@@ -225,6 +225,8 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="libman.json" />
+    <Content Include="Content\ref\Bug Tracker SRS.docx" />
+    <Content Include="Files\Bug_Tracker_SRS.pdf" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -354,6 +356,8 @@
     <Content Include="Views\Home\UserAdmin.cshtml" />
     <Content Include="Views\UserAdmin\ViewUser.cshtml" />
     <Content Include="Views\Bug\ViewBug.cshtml" />
+    <Content Include="Views\Bug\CurrentUserBugs.cshtml" />
+    <Content Include="Views\Home\PDFView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
