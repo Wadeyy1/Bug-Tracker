@@ -1,8 +1,15 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Project Info";
 }
 
 <div class="jumbotron">
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="alert alert-dismissible alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Welcome!</strong> Please <strong>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</strong> or <strong>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</strong> above to view all of the features.
+</div>
+    }
     <h1>Bug Tracker Project</h1>
     <p class="lead">
         This project sets out to create a Bug Tracking application, allowing users to self manage bugs within their own projects.
@@ -27,19 +34,19 @@
     <div class="col-md-4">
         <h2>Project SRS</h2>
         <p>For this project I drafted and followed a Software Requirements Specificaton, this allowed me to stay on track and have clear define goals and scope for the project.</p>
-        <button type="button" class="btn btn-default" data-target="#MyModal" data-toggle="modal" style="width:30%">View SRS &raquo;</button>
-</div>
+        <button type="button" class="btn btn-default" data-target="#SRSModal" data-toggle="modal" style="width:30%">View SRS &raquo;</button>
+    </div>
     <div class="col-md-4">
         <h2>Video Demonstration</h2>
         <p>I have recroded a demonstration of the application in action, displaying its core features for a user.</p>
         <br />
         <br />
-        <button class="btn btn-default" onclick="location.href='@Url.Action("PDFView", "Home")'" style="width:30%">View Demo &raquo;</button>
+        <button type="button" class="btn btn-default" data-target="#VideoDemo" data-toggle="modal" style="width:30%">View Demo &raquo;</button>
     </div>
 </div>
 
-<div class="modal" id="MyModal" role="dialog">
-    <div class="modal-dialog">
+<div class="modal" id="SRSModal" role="dialog">
+    <div class="modal-dialog" style="width:60%;">
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">&times;</button>
@@ -49,6 +56,23 @@
                 <object data="/Files/Bug_Tracker_SRS.pdf" type="application/pdf" style="width:100%;height:70vh;">
                     ;If you are unable to view file, you can download from <a href="/Files/Bug_Tracker_SRS.pdf">;here</a>; or download <a target="_blank" href="http://get.adobe.com/reader/​">;Adobe PDF Reader</a>; to view the file.
                 </object>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="VideoDemo" role="dialog">
+    <div class="modal-dialog" style="width: 675px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h4>Bug Tracker Demonstration</h4>
+            </div>
+            <div class="modal-body" >
+                <iframe src="https://player.vimeo.com/video/546941486" width="640" height="264" align="middle" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal">Close</button>

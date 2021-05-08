@@ -2,57 +2,85 @@
 @{
     ViewBag.Title = "User Admin";
 }
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <div class="jumbotron">
     <h2>@ViewBag.Title</h2>
     <p>This page allows you to manage users details and permissions.</p>
 </div>
+<button class="btn btn-danger" style="float:right; text-align:initial;" data-target="#DeleteModal" data-toggle="modal"><i style="float:right; text-align:initial;" class="fas fa-trash-alt"></i></button>
+<br />
+<br />
+<br />
 <div class="panel panel-default">
-    <div class="panel-body">
-        Username: @Model.UserName
-    </div>
-</div>
-<section>
-    <form class="form-horizontal" method="post" action="UserForm">
-        <fieldset>
-            <input name="ID" hidden value="@Model.ID"/>
-            <div class="form-group">
-                <label for="InputEmail" class="col-lg-2 control-label">Email</label>
-                <div class="col-lg-10" data-children-count="1">
-                    <input name="InputEmail" type="text" class="form-control" id="InputEmail" placeholder="Email" value="@Model.Email" data-kwimpalastatus="alive" data-kwimpalaid="1618517414221-1">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="userNotes" class="col-lg-2 control-label">User Additional Info</label>
-                <div class="col-lg-10" data-children-count="1">
-                    <textarea name ="AdditionalInfo" class="form-control" rows="3" id="userNotes">@(Model.AdditionalInfo ?? "")</textarea>
-                    <span class="help-block">Feel free to store any notes around the user that may be useful.</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="Role" class="col-lg-2 control-label">User Role</label>
-                <div class="col-lg-10" data-children-count="2">
-                    <select class="form-control" id="Role" name="Role">
-                        <option value="User" @(Model.Role == "User" ? "selected" : "")>User</option>
-                        <option value="Admin" @(Model.Role == "Admin" ? "selected" : "")>Admin</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="CrudPermission" class="col-lg-2 control-label">Permissions</label>
-                <div class="col-lg-10" data-children-count="2">
-                    <div class="checkbox">
-                        <label data-children-count="1">
-                            <input name="CrudPermission" id="CrudPermission" type="checkbox" @(Model.PermissionGranted == true ? "checked" : "")> Create and Delete Bugs
-                        </label>
+    <section>
+        <form class="form-horizontal" method="post" action="UserForm">
+
+            <fieldset>
+                <br />
+                <div class="form-group">
+                    <label for="InputEmail" class="col-lg-2 control-label">Username</label>
+                    <div class="col-lg-10" data-children-count="2">
+                        <input name="Username" type="text" readonly class="form-control" id="InputEmail" placeholder="Email" value="@Model.UserName" data-kwimpalastatus="alive" data-kwimpalaid="1618517414221-1">
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                    <button type="reset" class="btn btn-default" onclick="location.href='@Url.Action("UserAdmin", "Home")'">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                <input name="ID" hidden value="@Model.ID" />
+                <div class="form-group">
+                    <label for="InputEmail" class="col-lg-2 control-label">Email</label>
+                    <div class="col-lg-10" data-children-count="1">
+                        <input name="InputEmail" type="text" class="form-control" id="InputEmail" placeholder="Email" value="@Model.Email" data-kwimpalastatus="alive" data-kwimpalaid="1618517414221-1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="userNotes" class="col-lg-2 control-label">User Additional Info</label>
+                    <div class="col-lg-10" data-children-count="1">
+                        <textarea name="AdditionalInfo" class="form-control" rows="3" id="userNotes">@(Model.AdditionalInfo ?? "")</textarea>
+                        <span class="help-block">Store any notes around the user that may be useful.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Role" class="col-lg-2 control-label">User Role</label>
+                    <div class="col-lg-10" data-children-count="2">
+                        <select class="form-control" id="Role" name="Role">
+                            <option value=""></option>
+                            <option value="1" @(Model.Role == "User" ? "selected" : "")>User</option>
+                            <option value="2" @(Model.Role == "Admin" ? "selected" : "")>Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="CrudPermission" class="col-lg-2 control-label">Permissions</label>
+                    <div class="col-lg-10" data-children-count="2">
+                        <div class="checkbox">
+                            <label data-children-count="1">
+                                <input name="CrudPermission" id="CrudPermission" type="checkbox" @(Model.PermissionGranted == true ? "checked" : "")> Create and Delete Bugs
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="reset" class="btn btn-default" onclick="location.href='@Url.Action("UserAdmin", "Home")'">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </section>
+    <div class="modal" id="DeleteModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Delete User - @Model.UserName</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete user @Model.UserName? Please confirm/cancel your changes below.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("DeleteSpecificUser", "UserAdmin",new { UserID = Model.ID })'">Delete User</button>
                 </div>
             </div>
-        </fieldset>
-    </form>
-</section>
+        </div>
+    </div>
+</div>

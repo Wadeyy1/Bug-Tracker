@@ -1,9 +1,13 @@
 ﻿@model Bug_Tracker.Models.Bug
 
+@{ 
+    ViewBag.Title = Model.BugID;
+}
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <div class="panel panel-default">
     <div class="jumbotron">
-        <h2>#INC-@Model.BugID <button class="btn btn-danger" style="float:right; text-align:initial;" data-target="#MyModal" data-toggle="modal"><i style="float:right; text-align:initial;" class="fas fa-trash-alt"></i></button></h2>
+        <h2>#INC-@Model.BugID <button class="btn btn-danger" style="float:right; text-align:initial;" data-target="#DeleteModal" data-toggle="modal"><i style="float:right; text-align:initial;" class="fas fa-trash-alt"></i></button></h2>
     </div>
     <form class="form-horizontal" method="post" action="ViewBug">
         <fieldset>
@@ -34,15 +38,15 @@
                 <div style="flex: 30%;">
                     <div class="form-group" data-children-count="1">
                         <label class="control-label" for="inputCreatedDate">Created By</label>
-                        <input type="text" class="form-control" name="inputCreatedDate" value="@Model.CreatedBy" readonly="true" style="width: 70%">
+                        <input type="text" class="form-control" name="inputCreatedDate" value="@Model.CreatedBy" readonly style="width: 70%">
                     </div>
                     <div class="form-group" data-children-count="1">
                         <label class="control-label" for="inputCreatedDate">Created Date</label>
-                        <input type="datetime" class="form-control" name="inputCreatedDate" value="@Model.CreatedDate" readonly="true" style="width: 70%">
+                        <input type="datetime" class="form-control" name="inputCreatedDate" value="@Model.CreatedDate" readonly style="width: 70%">
                     </div>
                     <div class="form-group" data-children-count="1">
                         <label class="control-label" for="inputClosedDate">Closed Date</label>
-                        <input type="datetime" class="form-control" name="inputClosedDate" value="@Model.ClosedDate" readonly="true" style="width: 70%">
+                        <input type="datetime" class="form-control" name="inputClosedDate" value="@Model.ClosedDate" readonly style="width: 70%">
                     </div>
                     <div class="form-group" data-children-count="1">
                         <label class="control-label" for="Status">Status</label>
@@ -111,7 +115,7 @@
             </fieldset>
         </form>
     </div>
-    <div class="modal" id="MyModal" role="dialog">
+    <div class="modal" id="DeleteModal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

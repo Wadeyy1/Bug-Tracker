@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Bug_Tracker.Controllers
 {
-    [Authorize]
+    
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -23,6 +23,7 @@ namespace Bug_Tracker.Controllers
             return View("UserAdmin", users);
         }
 
+        [Authorize]
         public ActionResult PDFView()
         {
             return View();

@@ -12,14 +12,6 @@ namespace Bug_Tracker.Models
         public string Email { get; set; }
         public string Role { get; set; }
 
-        public UserAdminModel(string ID, string userName, string email, string role)
-        {
-            this.ID = ID;
-            UserName = userName ?? "";
-            Email = email ?? "";
-            Role = role ?? "";
-        }
-
         public UserAdminModel()
         {
         }
